@@ -1,4 +1,3 @@
-# app.py
 import streamlit as st
 import openai
 import os
@@ -35,10 +34,11 @@ def detect_anomalies(data):
 # Streamlit layout
 st.title("Maintenance Recommendation & Anomaly Detection")
 
-col1, col2 = st.columns(2)
+# Create tabs for the two functionalities
+tab1, tab2 = st.tabs(["Maintenance Recommendation", "Anomaly Detection"])
 
 # Code Block 1: Maintenance Recommendation Generator
-with col1:
+with tab1:
     st.header("Maintenance Recommendation Generator")
     incident_description = st.text_area("Incident Description", "Engine RPM exceeded 2500 during takeoff, potential fuel system issues.")
     if st.button("Generate Recommendation"):
@@ -46,7 +46,7 @@ with col1:
         st.write("Maintenance Recommendation:", recommendation)
 
 # Code Block 2: Anomaly Detection with Isolation Forest
-with col2:
+with tab2:
     st.header("Anomaly Detection with Isolation Forest")
     uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
     
