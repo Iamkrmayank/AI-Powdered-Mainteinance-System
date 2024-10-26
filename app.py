@@ -58,3 +58,13 @@ with tab2:
             data, anomalies = detect_anomalies(data)
             st.write(f"Number of anomalies detected: {len(anomalies)}")
             st.write(anomalies)
+
+# Code Block 3: Embed Looker Studio report
+with tab3:
+    st.header("Flight Operations Overview: Key Metrics and Trends")
+    st.markdown(
+        """
+        <iframe width="100%" height="600" src="https://lookerstudio.google.com/embed/reporting/48e9ea6f-8ccd-4c70-b389-e1dc8ad93f36/page/DgbGE" frameborder="0" allowfullscreen></iframe>
+        """,
+        unsafe_allow_html=True
+    )
