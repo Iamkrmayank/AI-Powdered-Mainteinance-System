@@ -47,7 +47,7 @@ with tab1:
 
 # Code Block 2: Anomaly Detection with Isolation Forest
 with tab2:
-    st.header("Anomaly Detection with Isolation Forest")
+    st.header("Anomaly Detection")
     uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
     
     if uploaded_file is not None:
