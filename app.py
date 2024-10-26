@@ -37,7 +37,7 @@ tab1, tab2, tab3 = st.tabs(["Maintenance Recommendation", "Anomaly Detection", "
 
 # Code Block 1: Maintenance Recommendation Generator
 with tab1:
-    st.header("Maintenance Recommendation Generator")
+    st.header("Maintenance Recommendation")
     incident_description = st.text_area("Incident Description", "Engine RPM exceeded 2500 during takeoff, potential fuel system issues.")
     if st.button("Generate Recommendation"):
         recommendation = generate_recommendation(incident_description)
