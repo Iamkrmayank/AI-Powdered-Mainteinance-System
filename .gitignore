@@ -1,0 +1,9 @@
+# Ignore environment variable files
+.env
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore data files
+sample_data.csv
