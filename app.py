@@ -58,11 +58,10 @@ with tab2:
             st.write(anomalies)
 
 # Code Block 3: Embed Looker Studio report
+# Code Block 3: Direct link to Looker Studio report
 with tab3:
-    st.header("Looker Studio Report")
+    st.header("Aircraft Operational Insights")
+    st.warning("To view the report, ensure you have accepted third-party cookies and are logged into Google.")
     st.markdown(
-        """
-        <iframe width="100%" height="600" src="https://lookerstudio.google.com/embed/reporting/48e9ea6f-8ccd-4c70-b389-e1dc8ad93f36/page/DgbGE" frameborder="0" allowfullscreen></iframe>
-        """,
-        unsafe_allow_html=True
+        "[Click here to view the report directly in Looker Studio](https://lookerstudio.google.com/reporting/48e9ea6f-8ccd-4c70-b389-e1dc8ad93f36)"
     )
