@@ -16,9 +16,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def generate_recommendation(incident_description):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": f"Based on the following incident description, provide maintenance recommendations: {incident_description}"}
-        ]
+        messages=[{"role": "user", "content": f"Based on the following incident description, provide maintenance recommendations: {incident_description}"}]
     )
     recommendation = response['choices'][0]['message']['content']
     return recommendation
@@ -34,8 +32,8 @@ def detect_anomalies(data):
 # Streamlit layout
 st.title("Maintenance Recommendation & Anomaly Detection")
 
-# Create tabs for the two functionalities
-tab1, tab2 = st.tabs(["Maintenance Recommendation", "Anomaly Detection"])
+# Create tabs for the three functionalities
+tab1, tab2, tab3 = st.tabs(["Maintenance Recommendation", "Anomaly Detection", "Looker Studio Report"])
 
 # Code Block 1: Maintenance Recommendation Generator
 with tab1:
@@ -61,7 +59,7 @@ with tab2:
 
 # Code Block 3: Embed Looker Studio report
 with tab3:
-    st.header("Flight Operations Overview: Key Metrics and Trends")
+    st.header("Looker Studio Report")
     st.markdown(
         """
         <iframe width="100%" height="600" src="https://lookerstudio.google.com/embed/reporting/48e9ea6f-8ccd-4c70-b389-e1dc8ad93f36/page/DgbGE" frameborder="0" allowfullscreen></iframe>
