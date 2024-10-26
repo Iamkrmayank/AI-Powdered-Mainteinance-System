@@ -1,7 +1,6 @@
 import streamlit as st
 import openai
 import os
-import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 from dotenv import load_dotenv
@@ -22,11 +21,15 @@ def generate_recommendation(incident_description):
     return recommendation
 
 def detect_anomalies(data):
+    # Fit Isolation Forest to the data
     iso_forest = IsolationForest(n_estimators=100, contamination=0.1, random_state=42)
     iso_forest.fit(data)
+    
+    # Add predictions and anomaly scores
     data['anomaly'] = iso_forest.predict(data)
-    data['anomaly_score'] = iso_forest.decision_function(data.drop(columns=['anomaly']))
+    data['anomaly_score'] = iso_forest.decision_function(data.drop(columns=['anomaly'], errors='ignore'))
     anomalies = data[data['anomaly'] == -1]
+    
     return data, anomalies
 
 # Streamlit layout
@@ -39,9 +42,13 @@ tab1, tab2, tab3 = st.tabs(["Maintenance Recommendation", "Anomaly Detection", "
 with tab1:
     st.header("Maintenance Recommendation")
     incident_description = st.text_area("Incident Description", "Engine RPM exceeded 2500 during takeoff, potential fuel system issues.")
+    
     if st.button("Generate Recommendation"):
-        recommendation = generate_recommendation(incident_description)
-        st.write("Maintenance Recommendation:", recommendation)
+        if incident_description.strip() == "":
+            st.error("Please enter an incident description.")
+        else:
+            recommendation = generate_recommendation(incident_description)
+            st.write("Maintenance Recommendation:", recommendation)
 
 # Code Block 2: Anomaly Detection with Isolation Forest
 with tab2:
@@ -53,12 +60,17 @@ with tab2:
         st.write("Data Preview:", data.head())
         
         if st.button("Detect Anomalies"):
-            data, anomalies = detect_anomalies(data)
-            st.write(f"Number of anomalies detected: {len(anomalies)}")
-            st.write(anomalies)
+            # Ensure data does not contain non-numeric types for Isolation Forest
+            if data.select_dtypes(include='number').shape[1] == 0:
+                st.error("The dataset must contain numeric columns for anomaly detection.")
+            else:
+                # Run anomaly detection
+                data, anomalies = detect_anomalies(data)
+                
+                st.write(f"Number of anomalies detected: {len(anomalies)}")
+                st.write(anomalies)
 
 # Code Block 3: Embed Looker Studio report
-# Code Block 3: Direct link to Looker Studio report
 with tab3:
     st.header("Aircraft Operational Insights")
     st.warning("To view the report, ensure you have accepted third-party cookies and are logged into Google.")
