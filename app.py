@@ -2,6 +2,8 @@ import streamlit as st
 import openai
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.ensemble import IsolationForest
 from dotenv import load_dotenv
 
@@ -31,6 +33,21 @@ def detect_anomalies(data):
     anomalies = data[data['anomaly'] == -1]
     
     return data, anomalies
+
+def plot_anomalies(data, features):
+    # Set up the figure and axes
+    plt.figure(figsize=(12, 8))
+
+    for i, feature in enumerate(features):
+        plt.subplot(2, 2, i + 1)  # 2x2 grid of subplots
+        sns.barplot(x=data.index, y=feature, hue=data['anomaly'], data=data, palette='coolwarm')
+        plt.title(f'Anomaly Detection in {feature}')
+        plt.xlabel('Index')
+        plt.ylabel(feature)
+
+    plt.tight_layout()
+    st.pyplot(plt)  # Display the figure in Streamlit
+    plt.clf()  # Clear the figure after displaying
 
 # Streamlit layout
 st.title("Maintenance Recommendation & Anomaly Detection")
@@ -69,6 +86,10 @@ with tab2:
                 
                 st.write(f"Number of anomalies detected: {len(anomalies)}")
                 st.write(anomalies)
+
+                # Plot anomalies for specified features
+                features = ['Engine_Temp', 'Engine_Vibration', 'Oil_Pressure', 'Fuel_Flow']
+                plot_anomalies(data, features)
 
 # Code Block 3: Embed Looker Studio report
 with tab3:
